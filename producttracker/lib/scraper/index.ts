@@ -7,13 +7,10 @@ export async function scrapeAmazonProduct(url: string) {
         return;
     }
 
-
     const username = String(process.env.BRIGHT_DATA_USERNAME);
     const password = String(process.env.PASSWORD);
     const port = 33335;
     const session_id = (Math.random() * 100000) | 0;
-    
-    
 
     const options = {
         auth: {
@@ -30,21 +27,33 @@ export async function scrapeAmazonProduct(url: string) {
 
         const $ = cheerio.load(response.data);
 
-        const title  = $('#productTitle').text().trim();
+        const title = $('#productTitle').text().trim();
+
+        // Target price using multiple common classes
 
 
-        // Figure this out
-        const price = extractPrice(
-            $('.priceToPay span.a-price-whole'),
-            $('a.size.base.a-color-price'),
-            $('.a-button-selected .a-color-base'),
-        );
+        // Issue with the price selector is solved
+        // So what I need to do is split the number from the decimal point
+        // can also get the first 2 digitals after the decimal point
 
-    console.log({title, price});
+        //ex: 223.23.423.324.234.23.12.
+        // split and get 223
 
-        // console.log(response.data)
+        // 6264664617427347374
+        // get first 2 digits "62"
+
+
+        const priceWhole = $('.a-price-whole').text().trim();
+        const priceFraction = $('.a-price-fraction').text().trim();
+
+        const currentPrice = priceWhole + '.' + priceFraction;
+
+        console.log("The price  = "+ priceWhole);
+        console.log("The cents = " + priceFraction);
+
+        console.log({ title, currentPrice });
 
     } catch (error: any) {
-        throw new Error('Error to scaraple product');
+        console.error('Error scraping product:', error.message);
     }
 }
