@@ -43,13 +43,32 @@ export async function scrapeAmazonProduct(url: string) {
         // get first 2 digits "62"
 
 
-        const priceWhole = $('.a-price-whole').text().trim();
-        const priceFraction = $('.a-price-fraction').text().trim();
+        // Getting the price from the amazon page and formatting it
 
-        const currentPrice = priceWhole + '.' + priceFraction;
+        const currentPrice = extractPrice(
+            $('.a-price-whole').text().trim(),
+            $('.a-price-fraction').text().trim(),
+        )
 
-        console.log("The price  = "+ priceWhole);
-        console.log("The cents = " + priceFraction);
+        const orginalPrice = extractPrice(
+            $('#priceblock_ourprice'),
+            $('.a-price.a-text-price span.a-offscreen'), 
+            $('#listPriceValue span.a-offscreen'),
+            $(),
+        )
+
+        // Gets the whole number of the price
+        let priceWhole = $('.a-price-whole').text().trim();
+        // Gets the fraction of the price
+        let priceFraction = $('.a-price-fraction').text().trim();
+        
+        // Spliting the price from the decimal point
+        const priceDollar = priceWhole.split(".")[0];
+        
+        const priceCents = priceFraction.slice(0, 2);
+
+        console.log("The price  = "+ priceDollar);
+        console.log("The cents = " + priceCents);
 
         console.log({ title, currentPrice });
 
