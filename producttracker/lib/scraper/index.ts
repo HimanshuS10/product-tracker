@@ -69,6 +69,6 @@ export async function scrapeAmazonProduct(url: string) {
         console.log({ title, currentPrice });
 
     } catch (error: any) {
-        console.error('Error scraping product:', error.message);
+        console.error('Error scraping the product:', error.message);
     }
 }
