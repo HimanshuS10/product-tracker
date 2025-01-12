@@ -39,10 +39,6 @@ export async function scrapeAmazonProduct(url: string) {
         //ex: 223.23.423.324.234.23.12.
         // split and get 223
 
-        // 6264664617427347374
-        // get first 2 digits "62"
-
-
         // Getting the price from the amazon page and formatting it
 
         const currentPrice = extractPrice(
