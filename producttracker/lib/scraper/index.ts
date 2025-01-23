@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import { extractPrice } from '../utils';
 
 export async function scrapeAmazonProduct(url: string) {
+    
     if (!url) {
         return;
     }
@@ -50,7 +51,7 @@ export async function scrapeAmazonProduct(url: string) {
             $('#priceblock_ourprice'),
             $('.a-price.a-text-price span.a-offscreen'), 
             $('#listPriceValue span.a-offscreen'),
-            $(),
+            
         )
 
         // Gets the whole number of the price
